@@ -1,0 +1,58 @@
+{
+  "name": "react-any-event",
+  "version": "1.0.0",
+  "description": "Create and handle new events for HTML elements",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itaym/react-any-event.git"
+  },
+  "keywords": [
+    "React",
+    "HTML",
+    "utility",
+    "props",
+    "Events",
+    "Custom"
+  ],
+  "author": "Itay Merchav",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itaym/react-any-event/issues"
+  },
+  "homepage": "https://github.com/itaym/react-any-event#readme",
+  "devDependencies": {
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^25.2.1",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "@types/react-test-renderer": "^16.9.2",
+    "@types/sinon": "^9.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
+    "sinon": "^9.0.2",
+    "ts-jest": "^25.5.1",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {}
+}

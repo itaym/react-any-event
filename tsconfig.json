@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "declaration": true,
+    "strictNullChecks": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "downlevelIteration": true,
     "outDir": "./lib",
     "strict": true,
     "esModuleInterop": true,
+    "sourceMap": true,
     "jsx": "react"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules", "lib" ,"**/__tests__/*"]
 }

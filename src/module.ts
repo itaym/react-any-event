@@ -1,0 +1,2 @@
+import { PropsWithChildren } from 'react';
+

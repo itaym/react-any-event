@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnyEvent Component  Testing snapshot 1`] = `
+<div>
+  <span
+    id="any-event"
+  >
+    Not type 1 node
+    <input
+      id="testInput"
+    />
+  </span>
+</div>
+`;
