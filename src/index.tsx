@@ -140,7 +140,7 @@ export default class AnyEvent extends Component<IAnyEventProps> {
                 configurable: false
             });
         }
-        catch {}
+        catch { return }
     }
     buildConfig () {
         const { props: { events }} = this;
@@ -197,7 +197,7 @@ export default class AnyEvent extends Component<IAnyEventProps> {
         const targetOnEvent = target[lowerCaseName] || target[camelCaseName];
 
         if (triggerEventFn.call(null, target, newEvent, propName)) {
-            //if the event is 'native' event don't dispatch because it already been dispatched.
+            // if the event is 'native' event don't dispatch because it already been dispatched.
             if (event !== newEvent) target.dispatchEvent(newEvent);
             if (targetOnEvent) {
                 targetOnEvent(newEvent);

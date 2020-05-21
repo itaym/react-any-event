@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1590074768807" clover="3.2.0">
-  <project timestamp="1590074768807" name="All files">
-    <metrics statements="98" coveredstatements="98" conditionals="60" coveredconditionals="60" methods="25" coveredmethods="25" elements="183" coveredelements="183" complexity="0" loc="98" ncloc="98" packages="1" files="1" classes="1"/>
+<coverage generated="1590075077846" clover="3.2.0">
+  <project timestamp="1590075077846" name="All files">
+    <metrics statements="99" coveredstatements="99" conditionals="60" coveredconditionals="60" methods="25" coveredmethods="25" elements="184" coveredelements="184" complexity="0" loc="99" ncloc="99" packages="1" files="1" classes="1"/>
     <file name="index.tsx" path="C:\Users\itaym\WebStormProjects\react-any-event\src\index.tsx">
-      <metrics statements="98" coveredstatements="98" conditionals="60" coveredconditionals="60" methods="25" coveredmethods="25"/>
+      <metrics statements="99" coveredstatements="99" conditionals="60" coveredconditionals="60" methods="25" coveredmethods="25"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
       <line num="106" count="1" type="stmt"/>
@@ -27,6 +27,7 @@
       <line num="134" count="7" type="cond" truecount="2" falsecount="0"/>
       <line num="135" count="3" type="stmt"/>
       <line num="138" count="7" type="stmt"/>
+      <line num="143" count="2" type="stmt"/>
       <line num="145" count="1" type="stmt"/>
       <line num="146" count="8" type="stmt"/>
       <line num="147" count="8" type="stmt"/>
