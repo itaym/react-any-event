@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1590008017858" clover="3.2.0">
-  <project timestamp="1590008017858" name="All files">
+<coverage generated="1590074768807" clover="3.2.0">
+  <project timestamp="1590074768807" name="All files">
     <metrics statements="98" coveredstatements="98" conditionals="60" coveredconditionals="60" methods="25" coveredmethods="25" elements="183" coveredelements="183" complexity="0" loc="98" ncloc="98" packages="1" files="1" classes="1"/>
     <file name="index.tsx" path="C:\Users\itaym\WebStormProjects\react-any-event\src\index.tsx">
       <metrics statements="98" coveredstatements="98" conditionals="60" coveredconditionals="60" methods="25" coveredmethods="25"/>
