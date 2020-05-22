@@ -9,12 +9,15 @@ The purpose of the package is to assist you adding any custom event to any HTML 
 ## Usage
 ``import AnyEvent from 'react-any-event';``
 
-The component receives one property called **events**. This property is array defining each event to add to any HTML element it wraps <u>directly</u> or in the tree.
+The component receives two properties, **events** & **subtree**. The **events** property is array defining each event to add to any HTML element it wraps <u>directly</u> or in the tree.
 One of the main features is that attrbutes changed **programmatically** are also can trigger the event. For an example, the &apos;change&apos; event of an input element is not fired when you change the value of the input programmatically. With **AnyEvent** you can achieve this with ease.
 **You can define any event you wish on any kind of element as your needs or imagination require.**
 
 The component wraps its childern with a **span** element. You can provide any attribute to apply to this span to match your requirements such as className etc.
 
+## Properties
+**subtree**
+An optional boolean (default is false). Determine if to apply the event on direct children nodes or for all the in the tree.
 **events:**
 An array of:
 
@@ -23,14 +26,14 @@ An array of:
 |  name  |  string  |  The name of the event.   |
 |  triggerByAttributes | string[]  |  Optional. Array of attributes such as [&apos;value&apos;, &apos;title&apos;, &apos;class&apos;, ...]   |
 |  triggerByEvents   | string[]  |  Optional. Array of events such as [&apos;change&apos;, &apos;keyup&apos;, ...] |
-|  subtree  |  boolean  |  Optional (default false)  Apply to all subtree.  |
 |  elementsType  |  HTML Elements constructor []  |  Optional (default HTMLElement) On which elements type to apply the event. Such as [HTMLElement, HTMLInputElement, HTMLDivElement, ...] |
 |  triggerEventFn  |  function(event, propName): boolean  |  The funciton that triggers the event. The this variable is the element the event fired on. If the function returns true the event will be fired. |
 
 |  Events can be tricky, so please  |
 | :------------: |
 |  **Do not use names of existing events. This can cause unexpected result.** |
-|  **Do not nest events with the same or inherited HTML constructors with subtree: true. This can also cause unexpected result.**  |
+|  **Do not nest events with the same or inherited HTML constructors with subtree: true.**  |
+|  **This can also cause unexpected result.**  |
 
 ### Example 1
 This will fire on any change even if it&apos;s programmatically:
@@ -74,7 +77,7 @@ bananaHandler (event) {
     // do something ...
 }
 ...
-this.bananaInput.addEventListener('banan', this.bananaHandler);
+this.bananaInput.addEventListener('banana', this.bananaHandler);
 ...
 ```
 ### Example 3

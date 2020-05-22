@@ -5,7 +5,8 @@ export interface Element {
     setAttribute(qualifiedName: string, value: string, anyEvent?:AnyEvent): void;
 }
 export interface IAnyEventProps extends PropsWithChildren<any> {
-    events: IAnyEvent[]
+    events: IAnyEvent[];
+    subtree?: boolean;
 }
 export type IAnyElement =
     new () => HTMLAnchorElement |
@@ -90,7 +91,6 @@ export interface IAnyEvent {
     name: string;
     triggerByAttributes?: string[];
     triggerByEvents?: string[];
-    subtree?: boolean;
     triggerEventFn: IAnyTriggerEventFn;
     elementsType?: IAnyElement | IAnyElement[];
 }
@@ -176,17 +176,16 @@ export default class AnyEvent extends Component<IAnyEventProps> {
         this.config = { attrMapping, eventMapping };
     }
     buildObserverConfig () {
-        const { props: { events }} = this;
+        const { props: { events, subtree }} = this;
         const co:MutationObserverInit = {
             attributeFilter: [],
             childList: true,
-            subtree: false,
+            subtree: !!subtree,
             attributes: true,
             attributeOldValue: true,
         };
         (events || []).forEach((event) => {
             co.attributeFilter = co.attributeFilter.concat((event.triggerByAttributes || []));
-            co.subtree = co.subtree || event.subtree;
         });
         return co;
     }
