@@ -17,11 +17,13 @@ The component wraps its childern with a **span** element. You can provide any at
 
 ## Properties
 **subtree**
+
 An optional boolean (default is false). Determine if to apply the event on direct children nodes or for all in the tree.
 
 
 **events:**
-An array of:
+
+An array of objects:
 
 |  property  |  type  |    |
 | :------------ | :------------ | :------------ |
@@ -30,6 +32,7 @@ An array of:
 |  triggerByEvents   | string[]  |  Optional. Array of events such as [&apos;change&apos;, &apos;keyup&apos;, ...] |
 |  elementsType  |  HTML Elements constructor []  |  Optional (default HTMLElement) On which elements type to apply the event. Such as [HTMLElement, HTMLInputElement, HTMLDivElement, ...] |
 |  triggerEventFn  |  function(event, propName): boolean  |  The funciton that triggers the event. The this variable is the element the event fired on. If the function returns true the event will be fired. |
+
 
 
 |  Events can be tricky, so please  |
@@ -177,6 +180,7 @@ export default Main;
 ```
 
 ------------
+
 
 ##Have a good productive day :)
 
