@@ -4,6 +4,7 @@ exports[`AnyEvent Component  Testing snapshot 1`] = `
 <div>
   <span
     id="any-event"
+    subtree={false}
   >
     Not type 1 node
     <input

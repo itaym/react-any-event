@@ -58,12 +58,12 @@ describe('AnyEvent Component ', () => {
         const anyEvent = (<AnyEvent
             id={'any-event'}
             ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+            subtree={true}
             events={[
                 {
                     name: 'banana',
                     triggerByAttributes: ['value', 'secondValue'],
                     triggerByEvents: ['keyup'],
-                    subtree: true,
                     elementsType: [HTMLInputElement, HTMLAreaElement],
                     triggerEventFn: bananaEventCallback,
                 },
@@ -101,26 +101,24 @@ describe('AnyEvent Component ', () => {
         const anyEvent = (<AnyEvent
             id={'any-event'}
             ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+            subtree={false}
             events={[
                 {
                     name: 'willGiveArrayFromSeveralEvents',
                     triggerByAttributes: ['value', 'secondValue'],
                     triggerByEvents: ['keyup'],
-                    subtree: false,
                     triggerEventFn: ():boolean => { return false; },
                 },
                 {
                     name: 'willGiveArrayFromSeveralEvents',
                     triggerByAttributes: ['value', 'secondValue'],
                     triggerByEvents: ['keyup'],
-                    subtree: false,
                     triggerEventFn: ():boolean => { return false; },
                 },
                 {
                     name: 'banana',
                     triggerByAttributes: ['value', 'secondValue'],
                     triggerByEvents: ['keyup'],
-                    subtree: false,
                     elementsType: [HTMLInputElement],
                     triggerEventFn: bananaEventCallback,
                 },
@@ -157,11 +155,11 @@ describe('AnyEvent Component ', () => {
         const anyEvent = (<AnyEvent
             id={'any-event'}
             ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+            subtree={false}
             events={[
                 {
                     name: 'banana',
                     triggerByEvents: ['keyup'],
-                    subtree: false,
                     elementsType: [HTMLInputElement],
                     triggerEventFn: bananaEventCallback,
                 },
@@ -197,11 +195,11 @@ describe('AnyEvent Component ', () => {
         const anyEvent = (<AnyEvent
             id={'any-event'}
             ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+            subtree={false}
             events={[
                 {
                     name: 'banana',
                     triggerByEvents: ['keyup'],
-                    subtree: false,
                     elementsType: [HTMLInputElement],
                     triggerEventFn: bananaEventCallback,
                 },
@@ -238,11 +236,11 @@ describe('AnyEvent Component ', () => {
         const anyEvent = (<AnyEvent
             id={'any-event'}
             ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+            subtree={false}
             events={[
                 {
                     name: 'banana',
                     triggerByAttributes: ['value', 'secondValue'],
-                    subtree: false,
                     elementsType: [HTMLInputElement],
                     triggerEventFn: bananaEventCallback,
                 },
@@ -274,11 +272,11 @@ describe('AnyEvent Component ', () => {
         const anyEvent = (<AnyEvent
             id={'any-event'}
             ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+            subtree={false}
             events={[
                 {
                     name: 'banana',
                     triggerByAttributes: ['value', 'secondValue'],
-                    subtree: false,
                     elementsType: [HTMLInputElement],
                     triggerEventFn: bananaEventCallback,
                 },
@@ -330,12 +328,12 @@ describe('AnyEvent Component ', () => {
             .create(<div><AnyEvent
                 id={'any-event'}
                 ref={(anyEvent:AnyEvent) => self['anyEvent'] = anyEvent}
+                subtree={false}
                 events={[
                     {
                         name: 'banana',
                         triggerByAttributes: ['value', 'secondValue'],
                         triggerByEvents: ['keyup'],
-                        subtree: false,
                         elementsType: [HTMLInputElement, HTMLAreaElement],
                         triggerEventFn: bananaEventFn,
                     },

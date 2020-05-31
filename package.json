@@ -1,6 +1,6 @@
 {
   "name": "react-any-event",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create and handle new events for HTML elements",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -204,7 +204,8 @@ export default class AnyEvent extends Component<IAnyEventProps> {
         }
     }
     modifyAllNodes (node: Node) {
-        const { config: { attrMapping, eventMapping } } = this;
+        const { config: { attrMapping, eventMapping }} = this;
+        const { props: { subtree }} = this;
 
         if (node.nodeType === 1) {
             for (const [attrName, elementTypesMap] of Object.entries(attrMapping)) {
@@ -225,7 +226,9 @@ export default class AnyEvent extends Component<IAnyEventProps> {
                     }
                 }
             }
-            node.childNodes.forEach((childNode: ChildNode) => this.modifyAllNodes(childNode));
+            if (subtree) {
+                node.childNodes.forEach((childNode: ChildNode) => this.modifyAllNodes(childNode));
+            }
         }
     }
     observerCallback = (mutationRecords: MutationRecord[], /* observer: MutationObserver */) => {
