@@ -1,7 +1,9 @@
 {
   "transform": {
-    "^.+\\.(t|j)sx?$": "ts-jest"
+    "^.+\\.(t|j)sx?$": ["ts-jest", { "tsconfig": "tsconfig.jest.json" }]
   },
+  "testEnvironment": "jsdom",
+  "setupFilesAfterEnv": ["@testing-library/jest-dom"],
   "collectCoverage": true,
   "coverageThreshold": {
     "global": {

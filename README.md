@@ -20,6 +20,9 @@ The component wraps its childern with a **span** element. You can provide any at
 
 An optional boolean (default is false). Determine if to apply the event on direct children nodes or for all in the tree.
 
+**as**
+
+An optional element type (default is `'span'`) for the wrapper element, e.g. `as="div"`. Useful where a `<span>` isn't valid markup (inside `<tr>`/`<select>`/`<table>`, for instance) or is unwanted noise in a flex/grid layout.
 
 **events:**
 
@@ -111,8 +114,8 @@ function App() {
               elementsType: [HTMLInputElement, HTMLDivElement],
               triggerEventFn: function (event, property) {
                   // The "this" in this function is the element.
-                  const currentEllipsis = !!isEllipsis(this, true);
-                  const previousEllipsis = !!this.ellipsisState;
+                  const currentEllipsis = isEllipsis(this, true, Boolean);
+                  const previousEllipsis = this.ellipsisState === true;
                   this.ellipsisState = currentEllipsis;
                   // If the return value is true the event will be dispached.
                   return currentEllipsis !== previousEllipsis;
@@ -131,36 +134,28 @@ function App() {
 export default App;
 ```
 **Main.js**
-
 ```javascript
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import AnyAttribute, { asObject } from 'react-any-attr';
 import './Main.css';
 
-class Main extends Component {
-    state = {
-        ellipsisState: false
-    }
-    onEllipsisHandler = (event) => {
-        this.setState((state) => ({...state, ellipsisState: !state.ellipsisState}))
-    }
-    render  () {
-        const { state: { ellipsisState }} = this;
+function Main() {
+    const [ellipsisState, setEllipsisState] = useState(false);
+    const onEllipsisHandler = () => setEllipsisState((state) => !state);
 
-        return (
-            <div>
-                <AnyAttribute
-                    attributes={{
-                        onEllipsis : asObject(this.onEllipsisHandler),
-                    }}>
-                    <input
-                        id={"input"}
-                        className={`set-ellipsis ${ellipsisState ? 'ellipsis-on' :''}`}
-                    />
-                </AnyAttribute>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <AnyAttribute
+                attributes={{
+                    onEllipsis: asObject(onEllipsisHandler),
+                }}>
+                <input
+                    id={'input'}
+                    className={`set-ellipsis ${ellipsisState ? 'ellipsis-on' : ''}`}
+                />
+            </AnyAttribute>
+        </div>
+    );
 }
 
 export default Main;
@@ -178,6 +173,134 @@ export default Main;
     border-color: red;
 }
 ```
+Try this one live: `npm run playground` (demo 6) wires up the actual `isellipsis` and `react-any-attr` packages end to end.
+
+#### Or, with hooks instead of wrapper components
+`App.js`/`Main.js` wrap once at the root and catch a matching element *anywhere* in the tree - handy when you don't control every component that might render one. If you just want to opt a single element in, `useAnyEvent` + `useAnyAttributes` skip the wrapper components (and the app-level split) entirely:
+```javascript
+import { useState } from 'react';
+import { isEllipsis } from 'isellipsis';
+import { useAnyEvent } from 'react-any-event';
+import { useAnyAttributes, asObject } from 'react-any-attr';
+import './Main.css';
+
+const ellipsisEvents = [{
+    name: 'ellipsis',
+    triggerByAttributes: ['value'],
+    triggerByEvents: ['blur'],
+    elementsType: [HTMLInputElement],
+    triggerEventFn: function (event, property) {
+        const currentEllipsis = isEllipsis(this, true, Boolean);
+        const previousEllipsis = this.ellipsisState === true;
+        this.ellipsisState = currentEllipsis;
+        return currentEllipsis !== previousEllipsis;
+    },
+}];
+
+function EllipsisInput() {
+    const [ellipsisState, setEllipsisState] = useState(false);
+    const eventRef = useAnyEvent(ellipsisEvents);
+    const attrRef = useAnyAttributes({
+        onEllipsis: asObject(() => setEllipsisState((state) => !state)),
+    });
+
+    return (
+        <input
+            className={`set-ellipsis ${ellipsisState ? 'ellipsis-on' : ''}`}
+            ref={(node) => {
+                eventRef(node);
+                attrRef(node);
+            }}
+        />
+    );
+}
+
+export default EllipsisInput;
+```
+
+### Example 4
+The point of Example 3 generalizes: *"is this element's text truncated"* is a **behavior** of an element that arguably deserves its own event — no native one exists for it. The same idea applies to plenty of other behaviors. Here's another: native `mouseenter`/`mouseleave` fire the instant the cursor crosses an element's *outer* edge, padding included. `mouseContentEnter`/`mouseContentLeave` only fire when the cursor is over where the content itself actually is — the padding box excluded.
+```javascript
+import AnyEvent from 'react-any-event';
+
+// Subtracts border + padding from the element's rect to get its content box.
+function isInsideContentBox(el, event) {
+    if (event.type === 'mouseleave') return false;
+    const { clientX, clientY } = event;
+    const rect = el.getBoundingClientRect();
+    const cs = getComputedStyle(el);
+    const left = rect.left + parseFloat(cs.borderLeftWidth) + parseFloat(cs.paddingLeft);
+    const right = rect.right - parseFloat(cs.borderRightWidth) - parseFloat(cs.paddingRight);
+    const top = rect.top + parseFloat(cs.borderTopWidth) + parseFloat(cs.paddingTop);
+    const bottom = rect.bottom - parseFloat(cs.borderBottomWidth) - parseFloat(cs.paddingBottom);
+    return clientX >= left && clientX <= right && clientY >= top && clientY <= bottom;
+}
+
+const mouseContentEvents = [
+    {
+        name: 'mouseContentEnter',
+        triggerByEvents: ['mousemove'],
+        triggerEventFn: function (event) {
+            const inside = isInsideContentBox(this, event);
+            const was = this.__insideContent === true;
+            if (inside && !was) {
+                this.__insideContent = true;
+                return true;
+            }
+            return false;
+        },
+    },
+    {
+        name: 'mouseContentLeave',
+        triggerByEvents: ['mousemove', 'mouseleave'],
+        triggerEventFn: function (event) {
+            const inside = isInsideContentBox(this, event);
+            const was = this.__insideContent === true;
+            if (!inside && was) {
+                this.__insideContent = false;
+                return true;
+            }
+            return false;
+        },
+    },
+];
+
+function Box() {
+    return (
+        <AnyEvent events={mouseContentEvents}>
+            <div
+                style={{ padding: 40, border: '1px solid' }}
+                ref={(node) => node?.addEventListener('mouseContentEnter', () => console.log('inside the content now'))}
+            >
+                hover the padding vs. the text
+            </div>
+        </AnyEvent>
+    );
+}
+```
+`elementsType` is omitted here on purpose — it defaults to `HTMLElement`, so this works on any element, not just inputs/divs. Try it live: `npm run playground` (demo 7).
+
+### useAnyEvent (no wrapper element)
+`<AnyEvent>` wraps its children in a `<span>` (or whatever `as` is set to). If you just want to attach events to a single element you already have a ref for - and skip the wrapper entirely - use the `useAnyEvent` hook instead:
+```javascript
+import { useAnyEvent } from 'react-any-event';
+
+function BananaInput() {
+    const ref = useAnyEvent([{
+        name: 'banana',
+        triggerByAttributes: ['value'],
+        elementsType: [HTMLInputElement],
+        triggerEventFn: function () {
+            return this.value.indexOf('banana') > -1;
+        },
+    }]);
+
+    return <input ref={ref} />;
+}
+```
+The second argument is `subtree` (default `false`), matching `<AnyEvent>`'s prop of the same name. Pass a memoized `events` array (e.g. via `useMemo`/module scope) rather than a new array literal every render, since a changed reference tears down and re-attaches the underlying observer.
+
+`events` and `subtree` are also reactive on `<AnyEvent>` itself now: changing either prop on an already-mounted `<AnyEvent>` rebuilds its configuration in place.
 
 ------------
 

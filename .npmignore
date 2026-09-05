@@ -5,4 +5,8 @@ src
 .prettierrc
 jestconfig.json
 tsconfig.json
-tslint.json
+tsconfig.esm.json
+tsconfig.jest.json
+eslint.config.mjs
+.github
+playground

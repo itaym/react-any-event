@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["react", "node", "jest"],
+    "isolatedModules": true,
+    // Under the library's real (es5) build target, `?.`/`??` are downleveled
+    // into verbose null/undefined-checking code with extra branches that are
+    // unreachable in practice (getOwnPropertyDescriptor never returns a
+    // literal `null`, for instance), which coverage then flags as missed.
+    // Tests run on Node directly, so there's no need to downlevel for them.
+    "target": "es2020"
+  },
+  "include": ["src"]
+}
